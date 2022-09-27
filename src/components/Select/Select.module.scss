@@ -1,0 +1,32 @@
+.selectContainer {
+    font-family: 'Poppins';
+    font-size: $font-size-small;
+    line-height: 16px;
+    min-width: 410px;
+  }
+  
+  .select {
+    height: 40px;
+    width: 100%;
+    margin: 0;
+    padding-left: 35px;
+    padding-right: 10px;
+    border: 1px solid $gray2;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background: url('../../assets/images/arrow-down.png') no-repeat #fff;
+    background-position: 97% 50%;
+    -webkit-appearance: none;
+    color: $gray4;
+  }
+  
+  .inputAndIconContainer {
+    display: flex;
+    width: 100%;
+  }
+  
+  .icon {
+    position: absolute;
+    left: 20px;
+    top: 24px;
+  }
