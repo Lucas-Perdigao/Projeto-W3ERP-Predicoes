@@ -7,4 +7,5 @@ export const Subtitle = styled.h3<{ fontSize: number }>`
   color: #424242;
   margin: 0;
   padding: 0;
+  margin: 0.1px;
 `
