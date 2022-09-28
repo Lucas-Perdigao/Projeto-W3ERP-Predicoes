@@ -11,150 +11,8 @@ import { getClients } from '../services/dashboard/getClients'
 import { getNumberCard } from '../services/dashboard/getNumberCard'
 import { ProductClientArray } from '../types/types'
 
-// type CardsType = {
-//   variant: 'up' | 'down' | 'average' | 'lastDays'
-//   tagPercentage?: number
-//   productNumber: number
-//   radialPercentage?: number
-//   days?: number
-//   type: string
-// }
-
-// const cards: CardsType[] = [
-//   {
-//     variant: 'up',
-//     tagPercentage: 20,
-//     productNumber: 60,
-//     radialPercentage: 54,
-//   },
-//   {
-//     variant: 'down',
-//     tagPercentage: 40,
-//     productNumber: 140,
-//     radialPercentage: 35,
-//   },
-//   {
-//     variant: 'up',
-//     tagPercentage: 80,
-//     productNumber: 45,
-//     radialPercentage: 78,
-//   },
-//   {
-//     variant: 'down',
-//     tagPercentage: 37,
-//     productNumber: 78,
-//     radialPercentage: 92,
-//   },
-// ]
-
 const titleProductsTable = ['ID', 'Produto', 'Percentual', '']
 const titleClientsTable = ['ID', 'Clientes', 'Percentual', '']
-
-// const productItems = [
-//   {
-//     id: 1,
-//     product: 'Papel higiênico',
-//     percentage: 72,
-//   },
-//   {
-//     id: 2,
-//     product: 'Álcool em gel',
-//     percentage: 68,
-//   },
-//   {
-//     id: 3,
-//     product: 'Sabonete',
-//     percentage: 64,
-//   },
-//   {
-//     id: 4,
-//     product: 'Detergente',
-//     percentage: 56,
-//   },
-//   {
-//     id: 5,
-//     product: 'Água sanitária',
-//     percentage: 52,
-//   },
-//   {
-//     id: 6,
-//     product: 'Limpador Multiuso',
-//     percentage: 45,
-//   },
-//   {
-//     id: 7,
-//     product: 'Perfume',
-//     percentage: 40,
-//   },
-//   {
-//     id: 8,
-//     product: 'Cloro',
-//     percentage: 32,
-//   },
-//   {
-//     id: 9,
-//     product: 'Limpa piso',
-//     percentage: 26,
-//   },
-//   {
-//     id: 10,
-//     product: 'Alvejante',
-//     percentage: 20,
-//   },
-// ]
-
-// const clientItems = [
-//   {
-//     id: 1,
-//     product: 'Hotel Íbis',
-//     percentage: 72,
-//   },
-//   {
-//     id: 2,
-//     product: 'Restaurante Carretão',
-//     percentage: 68,
-//   },
-//   {
-//     id: 3,
-//     product: 'Nobile Hotel',
-//     percentage: 64,
-//   },
-//   {
-//     id: 4,
-//     product: "Mc Donald's",
-//     percentage: 56,
-//   },
-//   {
-//     id: 5,
-//     product: 'Academia Smart Fit',
-//     percentage: 52,
-//   },
-//   {
-//     id: 6,
-//     product: 'iZap Softworks',
-//     percentage: 45,
-//   },
-//   {
-//     id: 7,
-//     product: 'Vida Plena Academia',
-//     percentage: 40,
-//   },
-//   {
-//     id: 8,
-//     product: 'Hermes Pardini',
-//     percentage: 32,
-//   },
-//   {
-//     id: 9,
-//     product: 'Hospital Santa Rita',
-//     percentage: 26,
-//   },
-//   {
-//     id: 10,
-//     product: 'Restaurante Comida da Roça',
-//     percentage: 20,
-//   },
-// ]
 
 type NumberCardType = {
   percentualTotalClientesAlta: number
@@ -173,6 +31,7 @@ type NumberCardType = {
 
 export function Dashboard() {
   const [clienteEmAlta, setClienteEmAlta] = useState(true)
+  const [produtosEmAlta, setProdutosEmAlta] = useState(true)
   const [products, setProducts] = useState<ProductClientArray>([])
   const [clients, setClients] = useState<ProductClientArray>([])
   const [numberCardInfo, setNumberCardInfo] = useState<NumberCardType>(
@@ -183,17 +42,6 @@ export function Dashboard() {
   const goToPage = (url: string) => {
     navigate(url)
   }
-
-  useEffect(() => {
-    ;(async () => {
-      const result = await getProducts()
-      if (result.message) {
-        alert(result.message)
-      } else {
-        setProducts(result)
-      }
-    })()
-  }, [])
 
   useEffect(() => {
     ;(async () => {
@@ -213,7 +61,27 @@ export function Dashboard() {
         }
       }
     })()
-  }, [])
+  }, [clienteEmAlta])
+
+  useEffect(() => {
+    ;(async () => {
+      if (produtosEmAlta === true) {
+        const result = await getProducts('EM_ALTA')
+        if (result.message) {
+          alert(result.message)
+        } else {
+          setProducts(result)
+        }
+      } else {
+        const result = await getProducts('EM_BAIXA')
+        if (result.message) {
+          alert(result.message)
+        } else {
+          setProducts(result)
+        }
+      }
+    })()
+  }, [produtosEmAlta])
 
   useEffect(() => {
     ;(async () => {
@@ -262,16 +130,14 @@ export function Dashboard() {
         <TableCard
           headers={titleProductsTable}
           title="products"
-          toogle
-          stateToogle={clienteEmAlta}
-          setStateToogle={setClienteEmAlta}
+          stateToogle={produtosEmAlta}
+          setStateToogle={setProdutosEmAlta}
         >
-          {products.map((item, index) => (
+          {products.map(item => (
             <tr
               className="tableItems"
               onClick={() => goToPage(`/produto/${item.id}`)}
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
+              key={item.id}
             >
               <td>{item.id}</td>
               <td>{item.nome}</td>
@@ -287,16 +153,14 @@ export function Dashboard() {
         <TableCard
           headers={titleClientsTable}
           title="clients"
-          toogle
           stateToogle={clienteEmAlta}
           setStateToogle={setClienteEmAlta}
         >
-          {clients.map((item, index) => (
+          {clients.map(item => (
             <tr
               className="tableItems"
               onClick={() => goToPage(`/cliente/${item.id}`)}
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
+              key={item.id}
             >
               <td>{item.id}</td>
               <td>{item.nome}</td>

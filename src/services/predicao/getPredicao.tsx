@@ -1,20 +1,12 @@
-// var priorDate = new Date(new Date().setDate(today.getDate() - 30));
-
 import axios from 'axios'
 import { apiService } from '../config/apiservice'
 
-export const getProducts = async (classificacao: string) => {
+export const getPredicao = async () => {
   try {
-    const response = await apiService.get('dashboard/produtos', {
-      params: {
-        classificacao: `${classificacao}`,
-        dataFim: '23/09/2022',
-        dataInicio: '20/10/2022',
-      },
-    })
+    const response = await apiService.get('predicao')
 
     if (response.status === 200) {
-      return response.data
+      return response.data.content
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {

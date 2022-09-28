@@ -9,8 +9,8 @@ type Props = {
   id: number
   clientName: string
   products: {
-    name: string
-    date: string
+    nome: string
+    proximaCompra: string
   }[]
 }
 
@@ -18,12 +18,14 @@ export function ClientCard({ id, clientName, products }: Props) {
   return (
     <div>
       <ClientCardStyle>
-        <Link to={`/cliente/${id}`}>
+        <Link to={`/predicao/${id}`}>
           <div className="ClientCardHeader">
             <div className="HeaderItems">
               <UserProfile color={color.tablePurple} />
               <div>
-                <Title fontSize={16}>{clientName}</Title>
+                <Title color={color.black} fontSize={16}>
+                  {clientName}
+                </Title>
               </div>
             </div>
             <ChevronRight />
@@ -37,8 +39,8 @@ export function ClientCard({ id, clientName, products }: Props) {
             </tr>
             {products.map(item => (
               <tr>
-                <td>{item.name}</td>
-                <td>{item.date}</td>
+                <td>{item.nome}</td>
+                <td>{item.proximaCompra.split('-').reverse().join('/')}</td>
               </tr>
             ))}
           </table>

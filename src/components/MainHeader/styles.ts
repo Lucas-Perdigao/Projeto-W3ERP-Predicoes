@@ -6,6 +6,7 @@ export const MainHeaderStyle = styled.div`
   color: white;
   border-radius: 24px;
   padding: 1rem;
+  margin-top: 1rem;
 
   .upperDiv {
     display: flex;

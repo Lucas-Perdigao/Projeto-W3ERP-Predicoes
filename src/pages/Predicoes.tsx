@@ -1,74 +1,60 @@
+import { useEffect, useState } from 'react'
 import { ClientCard } from '../components/ClientCard'
 import { MainContainer } from '../components/MainContainer/styles'
 import { ClientCardContainer } from '../components/ClientCard/styles'
 import { SearchInput } from '../components/SearchInput'
 import { Title } from '../components/Title/styles'
+import { getPredicao } from '../services/predicao/getPredicao'
 
-const clientItems = {
-  id: 1,
-  client: 'Hotel Íbis',
-  products: [
+type PredicoesType = {
+  id: number
+  nome: string
+  produtos: [
     {
-      name: 'Álcool em gel',
-      date: '02/09/22',
+      id: number
+      nome: string
+      proximaCompra: string
     },
     {
-      name: 'Água sanitária',
-      date: '05/09/22',
+      id: number
+      nome: string
+      proximaCompra: string
     },
     {
-      name: 'Papel higiênico',
-      date: '10/09/22',
-    },
-  ],
-}
+      id: number
+      nome: string
+      proximaCompra: string
+    }
+  ]
+}[]
 
 export function Predicoes() {
+  const [predicoes, setPredicoes] = useState<PredicoesType>([])
+
+  useEffect(() => {
+    ;(async () => {
+      const result = await getPredicao()
+      if (result.message) {
+        alert(result.message)
+      } else {
+        setPredicoes(result)
+      }
+    })()
+  }, [])
+
   return (
     <MainContainer>
       <Title fontSize={32}>Predições</Title>
       <SearchInput />
       <ClientCardContainer>
-        <ClientCard
-          clientName={clientItems.client}
-          products={clientItems.products}
-          id={clientItems.id}
-        />
-        <ClientCard
-          clientName={clientItems.client}
-          products={clientItems.products}
-          id={clientItems.id}
-        />
-        <ClientCard
-          clientName={clientItems.client}
-          products={clientItems.products}
-          id={clientItems.id}
-        />
-        <ClientCard
-          clientName={clientItems.client}
-          products={clientItems.products}
-          id={clientItems.id}
-        />
-        <ClientCard
-          clientName={clientItems.client}
-          products={clientItems.products}
-          id={clientItems.id}
-        />
-        <ClientCard
-          clientName={clientItems.client}
-          products={clientItems.products}
-          id={clientItems.id}
-        />
-        <ClientCard
-          clientName={clientItems.client}
-          products={clientItems.products}
-          id={clientItems.id}
-        />
-        <ClientCard
-          clientName={clientItems.client}
-          products={clientItems.products}
-          id={clientItems.id}
-        />
+        {predicoes.map(clientItem => (
+          <ClientCard
+            key={clientItem.id}
+            clientName={clientItem.nome}
+            products={clientItem.produtos}
+            id={clientItem.id}
+          />
+        ))}
       </ClientCardContainer>
     </MainContainer>
   )

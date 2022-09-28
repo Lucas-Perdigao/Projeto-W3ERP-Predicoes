@@ -13,6 +13,7 @@ import { Layout } from './components/Layout'
 import { ProdutoDetalhes } from './pages/ProdutoDetalhes'
 import { ClienteDetalhes } from './pages/ClienteDetalhes'
 import { AuthContext, AuthProvider } from './contexts/AuthContext/AuthContext'
+import { PredicaoClienteDetalhes } from './pages/PredicaoClienteDetalhes'
 
 function PrivateRoutesAccess({ children }: { children: React.ReactNode }) {
   const { authentified } = useContext(AuthContext)
@@ -67,6 +68,14 @@ function App() {
               element={
                 <PrivateRoutesAccess>
                   <ClienteDetalhes />
+                </PrivateRoutesAccess>
+              }
+            />
+            <Route
+              path="/predicao/:id"
+              element={
+                <PrivateRoutesAccess>
+                  <PredicaoClienteDetalhes />
                 </PrivateRoutesAccess>
               }
             />

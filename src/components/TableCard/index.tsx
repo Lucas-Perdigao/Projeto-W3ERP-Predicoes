@@ -9,7 +9,6 @@ type Props = {
   title: CardTitleVariant
   children: React.ReactNode
   headers: string[]
-  toogle?: true
   stateToogle?: boolean
   setStateToogle?: Dispatch<SetStateAction<boolean>>
 }
@@ -18,7 +17,6 @@ export function TableCard({
   title,
   children,
   headers,
-  toogle,
   stateToogle,
   setStateToogle,
 }: Props) {
@@ -27,7 +25,7 @@ export function TableCard({
       <div className="tableHeader">
         <CardTitle variant={title} />
 
-        {toogle && (
+        {stateToogle != null && !!setStateToogle && (
           <ToggleView
             switchOnState={stateToogle!}
             setSwitchOnState={() => setStateToogle(!stateToogle)}
