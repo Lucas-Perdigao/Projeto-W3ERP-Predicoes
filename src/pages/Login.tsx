@@ -45,14 +45,21 @@ export function Login() {
             placeholder="Insira sua senha"
             inputState={statePassword}
             inputSetState={setStatePassword}
+            password
           />
-          <Button text="Entrar" variant="login" onClick={() => doLogin()} />
+
           <div id="checkbox-remember">
-            <Checkbox />
-            <a href="teste">
+            <div className="checkboxDiv">
+              <Checkbox />{' '}
+              <Subtitle fontSize={16}>
+                <strong>Lembrar-me</strong>
+              </Subtitle>
+            </div>
+            <div className="rememberDiv">
               <Subtitle fontSize={16}>Esqueci minha senha</Subtitle>
-            </a>
+            </div>
           </div>
+          <Button text="Entrar" variant="login" onClick={() => doLogin()} />
         </Form>
       </div>
       <div>

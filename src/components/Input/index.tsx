@@ -1,5 +1,6 @@
 // import { useState } from 'react'
 import { ChangeEvent, Dispatch, SetStateAction } from 'react'
+import { EyeShut } from '../../assets/icons/EyeShut'
 import { InputStyled } from './styles'
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
   placeholder: string
   inputState: string
   inputSetState: Dispatch<SetStateAction<string>>
+  password?: boolean
 }
 
 export function Input({
@@ -14,6 +16,7 @@ export function Input({
   placeholder,
   inputState,
   inputSetState,
+  password,
 }: Props) {
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     inputSetState(event.target.value)
@@ -27,7 +30,13 @@ export function Input({
         value={inputState}
         placeholder={placeholder}
         onChange={handleInput}
+        type={password ? 'password' : 'text'}
       />
+      {password && (
+        <div className="eyeIconDiv">
+          <EyeShut />
+        </div>
+      )}
     </InputStyled>
   )
 }

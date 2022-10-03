@@ -12,7 +12,7 @@ export const HeaderStyle = styled.div`
   position: fixed;
   z-index: 999;
 
-  button {
+  .dropdown {
     border: none;
     background-color: ${color.white};
     color: ${color.grey};
@@ -40,5 +40,11 @@ export const UserOptionsStyle = styled.div`
     &:first-child {
       border-bottom: 2px solid ${color.grey};
     }
+  }
+
+  .logout {
+    background-color: ${color.white};
+    border: none;
+    align-items: baseline;
   }
 `

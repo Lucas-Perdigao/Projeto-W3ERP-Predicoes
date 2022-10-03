@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { SandwitchMenu } from '../../assets/icons/SandwichMenu'
 import { UserProfile } from '../../assets/icons/UserProfile'
 import { Title } from '../Title/styles'
@@ -9,6 +10,7 @@ import { Logout } from '../../assets/icons/logout'
 import { SettingTwo } from '../../assets/icons/setting-two'
 import { ChevronDown } from '../../assets/icons/chevron down'
 import { getUserInfo } from '../../services/user/getUserInfo'
+import { apiService } from '../../services/config/apiservice'
 
 type UserInfoType = {
   email: string
@@ -19,6 +21,13 @@ type UserInfoType = {
 export function UserHeader() {
   const [showOptions, setShowOptions] = useState(false)
   const [userInfo, setUserInfo] = useState<UserInfoType>({} as UserInfoType)
+  const navigate = useNavigate()
+
+  const logout = () => {
+    localStorage.clear()
+    apiService.defaults.headers.common.Authorization = ``
+    navigate(`/login`, { replace: true })
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -42,7 +51,11 @@ export function UserHeader() {
           <Title fontSize={20}>{userInfo.nome}</Title>
           <Subtitle fontSize={16}>{userInfo.email}</Subtitle>
         </div>
-        <button type="button" onClick={() => setShowOptions(!showOptions)}>
+        <button
+          className="dropdown"
+          type="button"
+          onClick={() => setShowOptions(!showOptions)}
+        >
           <ChevronDown />
         </button>
       </UserHeadStyle>
@@ -53,9 +66,11 @@ export function UserHeader() {
             <SettingTwo />
             Configurações
           </div>
-          <div>
-            <Logout />
-            Sair
+          <div className="logout">
+            <button type="button" onClick={logout}>
+              <Logout />
+              Sair
+            </button>
           </div>
         </UserOptionsStyle>
       )}

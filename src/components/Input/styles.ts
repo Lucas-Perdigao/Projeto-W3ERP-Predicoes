@@ -43,4 +43,10 @@ export const InputStyled = styled.div`
     padding: 2px;
     background: white;
   }
+
+  .eyeIconDiv {
+    position: absolute;
+    right: 30px;
+    top: 25px;
+  }
 `

@@ -20,4 +20,20 @@ export const ContainerLogin = styled.div`
       padding: 2rem 0rem;
     }
   }
+
+  #checkbox-remember {
+    margin: 2rem 0rem;
+  }
+
+  .checkboxDiv {
+    margin: 5px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .rememberDiv {
+    margin: 5px;
+    display: flex;
+    gap: 10px;
+  }
 `
