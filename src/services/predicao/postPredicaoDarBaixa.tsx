@@ -1,10 +1,13 @@
 import axios from 'axios'
 import { apiService } from '../config/apiservice'
 
-export const postPredicaoDarBaixa = async (id: string) => {
+export const postPredicaoDarBaixa = async (
+  clienteId: string,
+  produtoId: number
+) => {
   try {
-    const response = await apiService.post(`predicao/${id}/baixa`, {
-      produtoId: id,
+    const response = await apiService.post(`predicao/${clienteId}/baixa`, {
+      produtoId,
     })
 
     if (response.status === 200) {

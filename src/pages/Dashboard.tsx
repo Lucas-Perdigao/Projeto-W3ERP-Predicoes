@@ -6,8 +6,8 @@ import { NumberCard } from '../components/NumberCard'
 import { TableContainer } from '../components/TableContainer/styles'
 import { TableCard } from '../components/TableCard'
 import { ChevronRight } from '../assets/icons/chevron right'
-import { getProducts } from '../services/dashboard/getProducts'
-import { getClients } from '../services/dashboard/getClients'
+import { getDashboardProducts } from '../services/dashboard/getDashboardProducts'
+import { getDashboardClients } from '../services/dashboard/getDashboardClients'
 import { getNumberCard } from '../services/dashboard/getNumberCard'
 import { ProductClientArray } from '../types/types'
 
@@ -46,14 +46,14 @@ export function Dashboard() {
   useEffect(() => {
     ;(async () => {
       if (clienteEmAlta === true) {
-        const result = await getClients('EM_ALTA')
+        const result = await getDashboardClients('EM_ALTA')
         if (result.message) {
           alert(result.message)
         } else {
           setClients(result)
         }
       } else {
-        const result = await getClients('EM_BAIXA')
+        const result = await getDashboardClients('EM_BAIXA')
         if (result.message) {
           alert(result.message)
         } else {
@@ -66,14 +66,14 @@ export function Dashboard() {
   useEffect(() => {
     ;(async () => {
       if (produtosEmAlta === true) {
-        const result = await getProducts('EM_ALTA')
+        const result = await getDashboardProducts('EM_ALTA')
         if (result.message) {
           alert(result.message)
         } else {
           setProducts(result)
         }
       } else {
-        const result = await getProducts('EM_BAIXA')
+        const result = await getDashboardProducts('EM_BAIXA')
         if (result.message) {
           alert(result.message)
         } else {

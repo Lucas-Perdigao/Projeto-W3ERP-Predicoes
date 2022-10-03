@@ -1,16 +1,12 @@
 import axios from 'axios'
 import { apiService } from '../config/apiservice'
 
-export const getPredicao = async (query: string) => {
+export const getUserInfo = async () => {
   try {
-    const response = await apiService.get('predicao', {
-      params: {
-        query,
-      },
-    })
+    const response = await apiService.get(`usuario/me`)
 
     if (response.status === 200) {
-      return response.data.content
+      return response.data
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {

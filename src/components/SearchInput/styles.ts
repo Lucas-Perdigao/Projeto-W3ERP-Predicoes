@@ -2,11 +2,7 @@ import styled from 'styled-components'
 import { color } from '../../theme'
 
 export const SearchInputStyle = styled.div`
-  padding: 2rem;
-  background-color: ${color.white};
-  border-radius: 24px;
-  position: relative;
-  margin: 1rem 0;
+  padding: 1rem;
 
   input {
     width: 400px;
@@ -17,7 +13,8 @@ export const SearchInputStyle = styled.div`
 
   .searchIcon {
     position: absolute;
-    top: 47px;
+    top: 63px;
     left: 390px;
+    background-color: ${color.white};
   }
 `

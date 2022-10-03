@@ -30,22 +30,44 @@ type PredicoesType = {
 
 export function Predicoes() {
   const [predicoes, setPredicoes] = useState<PredicoesType>([])
+  const [searchParam, setSearchParam] = useState('')
+
+  // useEffect(() => {
+  //   ;(async () => {
+  //     const result = await getPredicao()
+  //     if (result.message) {
+  //       alert(result.message)
+  //     } else {
+  //       setPredicoes(result)
+  //     }
+  //   })()
+  // }, [])
+
+  const fetchPredicoes = async () => {
+    const result = await getPredicao(searchParam)
+    if (result.message) {
+      alert(result.message)
+    } else {
+      setPredicoes(result)
+    }
+  }
 
   useEffect(() => {
-    ;(async () => {
-      const result = await getPredicao()
-      if (result.message) {
-        alert(result.message)
-      } else {
-        setPredicoes(result)
-      }
-    })()
+    fetchPredicoes()
   }, [])
 
   return (
     <MainContainer>
       <Title fontSize={32}>Predições</Title>
-      <SearchInput />
+
+      <div className="whiteContainer flex">
+        <SearchInput
+          searchParam={searchParam}
+          setSearchParam={setSearchParam}
+          onClick={fetchPredicoes}
+        />
+      </div>
+
       <ClientCardContainer>
         {predicoes.map(clientItem => (
           <ClientCard

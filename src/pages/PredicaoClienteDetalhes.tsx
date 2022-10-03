@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { CheckOne } from '../assets/icons/check-one'
 import { ChevronLeft } from '../assets/icons/chevron left'
 import { Mail } from '../assets/icons/mail'
@@ -12,6 +12,7 @@ import { TableContainer } from '../components/TableContainer/styles'
 import { getPredicaoCliente } from '../services/predicao/getPredicaoCliente'
 import { getPredicaoEsgotando } from '../services/predicao/getPredicaoEsgotando'
 import { getPredicaoHistorico } from '../services/predicao/getPredicaoHistorico'
+import { postPredicaoDarBaixa } from '../services/predicao/postPredicaoDarBaixa'
 import { color } from '../theme'
 
 const historicoTitleTable = [
@@ -61,11 +62,13 @@ export function PredicaoClienteDetalhes() {
   const [predicoesEsgotando, setPredicoesEsgotando] =
     useState<PredicoesEsgotandoType>([])
 
-  const navigate = useNavigate()
+  const [reload, setReload] = useState(true)
 
-  const goToPage = (url: string) => {
-    navigate(url)
-  }
+  // const navigate = useNavigate()
+
+  // const goToPage = (url: string) => {
+  //   navigate(url)
+  // }
 
   useEffect(() => {
     ;(async () => {
@@ -87,7 +90,7 @@ export function PredicaoClienteDetalhes() {
         setPredicoesHistorico(result)
       }
     })()
-  }, [])
+  }, [reload])
 
   useEffect(() => {
     ;(async () => {
@@ -98,7 +101,16 @@ export function PredicaoClienteDetalhes() {
         setPredicoesEsgotando(result)
       }
     })()
-  }, [])
+  }, [reload])
+
+  const darBaixa = async (produtoId: number) => {
+    const result = await postPredicaoDarBaixa(id!, produtoId)
+    if (result.message) {
+      alert(result.message)
+    } else {
+      setReload(!reload)
+    }
+  }
 
   return (
     <MainContainer>
@@ -132,17 +144,27 @@ export function PredicaoClienteDetalhes() {
           {predicoesHistorico.map(item => (
             <tr
               className="tableItems"
-              onClick={() => goToPage(`/produto/${item.id}`)}
+              // onClick={() => goToPage(`/produto/${item.id}`)}
               key={item.id}
             >
-              <td>{item.id}</td>
-              <td>{item.nome}</td>
-              <td>{item.ultimaCompra.split('-').reverse().join('/')}</td>
-              <td>{item.quantidade}</td>
+              <td>
+                <Link to={`/produto/${item.id}`}>{item.id}</Link>
+              </td>
+              <td>
+                <Link to={`/produto/${item.id}`}>{item.nome}</Link>
+              </td>
               <td>
                 <Link to={`/produto/${item.id}`}>
-                  <CheckOne />
+                  {item.ultimaCompra.split('-').reverse().join('/')}
                 </Link>
+              </td>
+              <td>
+                <Link to={`/produto/${item.id}`}>{item.quantidade}</Link>
+              </td>
+              <td>
+                <button type="button" onClick={() => darBaixa(item.id)}>
+                  <CheckOne />
+                </button>
               </td>
             </tr>
           ))}{' '}
@@ -151,14 +173,28 @@ export function PredicaoClienteDetalhes() {
           {predicoesEsgotando.map(item => (
             <tr
               className="tableItems"
-              onClick={() => goToPage(`/produto/${item.id}`)}
+              // onClick={() => goToPage(`/produto/${item.id}`)}
               key={item.id}
             >
-              <td>{item.id}</td>
-              <td>{item.nome}</td>
-              <td>{item.ultimaCompra.split('-').reverse().join('/')}</td>
-              <td>{item.proximaCompra.split('-').reverse().join('/')}</td>
-              <td>{item.quantidade}</td>
+              <td>
+                <Link to={`/produto/${item.id}`}>{item.id}</Link>
+              </td>
+              <td>
+                <Link to={`/produto/${item.id}`}>{item.nome}</Link>
+              </td>
+              <td>
+                <Link to={`/produto/${item.id}`}>
+                  {item.ultimaCompra.split('-').reverse().join('/')}
+                </Link>
+              </td>
+              <td>
+                <Link to={`/produto/${item.id}`}>
+                  {item.proximaCompra.split('-').reverse().join('/')}
+                </Link>
+              </td>
+              <td>
+                <Link to={`/produto/${item.id}`}>{item.quantidade}</Link>
+              </td>
               <td>
                 <Link to={`/produto/${item.id}`}>
                   <CheckOne />
