@@ -10,6 +10,7 @@ import { getDashboardProducts } from '../services/dashboard/getDashboardProducts
 import { getDashboardClients } from '../services/dashboard/getDashboardClients'
 import { getNumberCard } from '../services/dashboard/getNumberCard'
 import { ProductClientArray } from '../types/types'
+import { dateHelper } from '../utils'
 
 const titleProductsTable = ['ID', 'Produto', 'Percentual', '']
 const titleClientsTable = ['ID', 'Clientes', 'Percentual', '']
@@ -32,6 +33,7 @@ type NumberCardType = {
 export function Dashboard() {
   const [clienteEmAlta, setClienteEmAlta] = useState(true)
   const [produtosEmAlta, setProdutosEmAlta] = useState(true)
+  const [dataParam, setDataParam] = useState(dateHelper.thisMonth())
   const [products, setProducts] = useState<ProductClientArray>([])
   const [clients, setClients] = useState<ProductClientArray>([])
   const [numberCardInfo, setNumberCardInfo] = useState<NumberCardType>(
@@ -66,14 +68,22 @@ export function Dashboard() {
   useEffect(() => {
     ;(async () => {
       if (produtosEmAlta === true) {
-        const result = await getDashboardProducts('EM_ALTA')
+        const result = await getDashboardProducts(
+          'EM_ALTA',
+          dataParam.start,
+          dataParam.end
+        )
         if (result.message) {
           alert(result.message)
         } else {
           setProducts(result)
         }
       } else {
-        const result = await getDashboardProducts('EM_BAIXA')
+        const result = await getDashboardProducts(
+          'EM_BAIXA',
+          dataParam.start,
+          dataParam.end
+        )
         if (result.message) {
           alert(result.message)
         } else {
@@ -81,7 +91,7 @@ export function Dashboard() {
         }
       }
     })()
-  }, [produtosEmAlta])
+  }, [produtosEmAlta, dataParam])
 
   useEffect(() => {
     ;(async () => {
@@ -96,7 +106,7 @@ export function Dashboard() {
 
   return (
     <MainContainer>
-      <MainHeader title="Dashboard">
+      <MainHeader setDateParam={setDataParam} title="Dashboard">
         <NumberCard
           variant="up"
           tagPercentage={numberCardInfo.percentualVariacaoProdutosAlta}

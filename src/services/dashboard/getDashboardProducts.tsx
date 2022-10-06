@@ -3,13 +3,17 @@
 import axios from 'axios'
 import { apiService } from '../config/apiservice'
 
-export const getDashboardProducts = async (classificacao: string) => {
+export const getDashboardProducts = async (
+  classificacao: string,
+  dataInicio: string,
+  dataFim: string
+) => {
   try {
     const response = await apiService.get('dashboard/produtos', {
       params: {
-        classificacao: `${classificacao}`,
-        dataFim: '23/09/2022',
-        dataInicio: '20/10/2022',
+        classificacao,
+        dataInicio,
+        dataFim,
       },
     })
 
